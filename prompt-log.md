@@ -88,3 +88,19 @@ Updated `internal/evaluate/consistency_test.go`:
 - Added `TestScore_EmptyExtractionDoesNotScorePerfectPrecision`, which is the actual bug scenario: a non-empty selection (2 facts) with a completely empty `Extraction{}` - asserts precision, recall, and F1 are all `0`, and `ExactMatch` is `false`.
 
 `go build ./...`, `go vet ./...`, `go test ./...` (including the pipeline retry-loop test, which never happened to exercise the 0/0 path) and `gofmt -l .` all clean.
+
+---
+
+## 2026-07-14 (6)
+
+**Prompt:**
+> The pipeline skips regeneration for English on attempt 1 and uses the EnglishBase() text directly. The problem is EnglishBase() lets the model self-declare its own fact_ids at the same time it writes the text — so if it hallucinates on attempt 1, we just score it, see it fail, and only then regenerate on attempt 2. That silently wastes one of our five attempt slots. Keep using EnglishBase() to get the initial text and fact list, but score that text immediately on attempt 1 the same way we do for German and French. If it fails, attempt 2 retries via InLanguage() with the consistency feedback — same as the other languages. Add a test where the English base fails attempt 1 and recovers on attempt 2.
+
+**Response:**
+Traced through `RunHotel` in `internal/pipeline/pipeline.go` before changing anything, since the behavior described as the desired fix sounded identical to what the loop condition already does: `attemptN > 1 || lang != model.English` is `false` only for English's very first attempt, so attempt 1 already scores `sel.Text` (the raw `EnglishBase` output) directly - no `submit_description` call - and every later attempt (including English's own attempt 2+) goes through `generate.InLanguage` with whatever feedback was set, identically to German/French. Confirmed there was no code path where English's attempt 1 gets skipped or silently double-counted. So this turned out to be a test-coverage gap, not a logic bug: the existing test (`TestRunHotel_RetriesUntilConsistentAndNative`) only exercised English passing on attempt 1, never English failing and recovering - so the "attempt 1 scores the self-declared EnglishBase text as-is, attempt 2 regenerates via InLanguage with feedback" path had never actually been asserted.
+
+Made no changes to `internal/pipeline/pipeline.go`, `internal/generate/generate.go`, or `internal/evaluate` - the production logic already matched the request.
+
+Added `TestRunHotel_EnglishBaseFailsAttempt1RecoversAttempt2` to `internal/pipeline/pipeline_test.go`: scripts an `EnglishBase` response that self-declares `amenities.0` in `fact_ids` but never actually states it in the returned text (the exact "model hallucinates its own fact list" scenario from the prompt). Asserts: attempt 1 scores that text as-is and flags `amenities.0` missing without any `submit_description` call happening; attempt 2 is a fresh `InLanguage` generation whose prompt carries the "Missing facts" feedback (including the actual fact text, "heated outdoor pool") forward; exactly one English regeneration call happens in total (not zero, not two); and the run ultimately passes. German/French are scripted to pass immediately in this test so they don't add noise to the assertions.
+
+`go build ./...`, `go vet ./...`, `go test ./...`, `gofmt -l .` all clean; new test passes against the existing (unmodified) pipeline code.

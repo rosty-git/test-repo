@@ -129,3 +129,82 @@ func TestRunHotel_RetriesUntilConsistentAndNative(t *testing.T) {
 		t.Errorf("expected progress log lines to be emitted")
 	}
 }
+
+// TestRunHotel_EnglishBaseFailsAttempt1RecoversAttempt2 covers the case the
+// German/French scenarios above don't: EnglishBase() lets the model
+// self-declare fact_ids in the same call that writes the text, so the text
+// can fail to actually state a fact it claims to use. Attempt 1 must score
+// that EnglishBase text as-is (no wasted regeneration call), and only
+// attempt 2 should go through InLanguage() with the consistency feedback -
+// the same recovery path German and French use.
+func TestRunHotel_EnglishBaseFailsAttempt1RecoversAttempt2(t *testing.T) {
+	fake := llmfake.New()
+	factIDs := []string{"core.name", "amenities.0"}
+	baseText := "Strandhaus Aurora welcomes you to Sylt."
+
+	fake.Enqueue("submit_selection", map[string]any{
+		"fact_ids": factIDs,
+		"text":     baseText, // declares amenities.0 but the text never actually states it
+	})
+
+	// English attempt 1: scored directly, no submit_description call yet.
+	fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": []string{"core.name"}})
+	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+	// English attempt 2: regenerated via InLanguage with the missing-fact feedback, fixes it.
+	fake.Enqueue("submit_description", map[string]any{"text": "Strandhaus Aurora welcomes you to Sylt with a heated outdoor pool."})
+	fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
+	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+
+	// German and French pass immediately on attempt 1 so they add no noise.
+	for _, lang := range []string{"German", "French"} {
+		fake.Enqueue("submit_description", map[string]any{"text": "placeholder " + lang + " text"})
+		fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
+		fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+	}
+
+	cfg := Config{MaxAttempts: 2, ConsistencyWeight: 0.7, NativenessWeight: 0.3, NativenessPassBar: 4}
+
+	result, err := RunHotel(context.Background(), fake, cfg, testHotel(), func(string) {})
+	if err != nil {
+		t.Fatalf("RunHotel returned error: %v", err)
+	}
+
+	en := result.Languages[model.English]
+	if len(en.Attempts) != 2 {
+		t.Fatalf("expected English to take 2 attempts, got %d", len(en.Attempts))
+	}
+
+	first := en.Attempts[0]
+	if first.Pass {
+		t.Errorf("expected English attempt 1 to fail - it self-declared amenities.0 but never stated it")
+	}
+	if first.Text != baseText {
+		t.Errorf("expected attempt 1 to score the EnglishBase text as-is, got %q", first.Text)
+	}
+	if len(first.Consistency.Missing) != 1 || first.Consistency.Missing[0] != "amenities.0" {
+		t.Errorf("expected amenities.0 flagged missing on attempt 1, got %+v", first.Consistency.Missing)
+	}
+
+	if !en.Final().Pass {
+		t.Errorf("expected English to pass by attempt 2")
+	}
+	if en.Final().Text == first.Text {
+		t.Errorf("expected attempt 2 to use a freshly generated text, not the reused EnglishBase text")
+	}
+
+	// Exactly one submit_description call should exist for English - the
+	// attempt-2 recovery - carrying the missing-fact feedback forward, the
+	// same way the German/French retries do above.
+	var englishRegenCalls int
+	for _, call := range fake.Calls {
+		if call.ToolName == "submit_description" && strings.Contains(call.User, "native English") {
+			englishRegenCalls++
+			if !strings.Contains(call.User, "Missing facts") || !strings.Contains(call.User, "heated outdoor pool") {
+				t.Errorf("expected the English retry prompt to carry the missing-fact feedback, got: %s", call.User)
+			}
+		}
+	}
+	if englishRegenCalls != 1 {
+		t.Errorf("expected exactly 1 English regeneration call, got %d", englishRegenCalls)
+	}
+}
