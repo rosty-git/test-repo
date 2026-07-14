@@ -99,11 +99,36 @@ func TestScore_ExtraFact(t *testing.T) {
 }
 
 func TestScore_EmptySelectionDoesNotDivideByZero(t *testing.T) {
+	// Nothing was selected and nothing was extracted: no discrepancy, so
+	// ExactMatch is still true, but there were zero true positives to earn
+	// a score on - precision/recall/F1 must not silently become 1.
 	got := Score(nil, Extraction{})
 	if !got.ExactMatch {
 		t.Errorf("expected exact match for empty selection with empty extraction")
 	}
-	if got.Recall != 1 || got.Precision != 1 {
-		t.Errorf("expected recall=precision=1 for the vacuous case, got %+v", got)
+	if got.Recall != 0 || got.Precision != 0 || got.F1 != 0 {
+		t.Errorf("expected recall=precision=f1=0 for the zero-true-positives case, got %+v", got)
+	}
+}
+
+func TestScore_EmptyExtractionDoesNotScorePerfectPrecision(t *testing.T) {
+	// The extractor found nothing at all for a description that was
+	// supposed to state two facts: zero true positives and zero false
+	// positives. 0/0 must not be reported as perfect precision - that
+	// would mask a extractor/generator failure as a flawless match.
+	selected := []string{"core.name", "amenities.0"}
+	got := Score(selected, Extraction{})
+
+	if got.Precision != 0 {
+		t.Errorf("expected precision=0 when nothing was extracted, got %f", got.Precision)
+	}
+	if got.Recall != 0 {
+		t.Errorf("expected recall=0 when nothing was extracted, got %f", got.Recall)
+	}
+	if got.F1 != 0 {
+		t.Errorf("expected F1=0 when nothing was extracted, got %f", got.F1)
+	}
+	if got.ExactMatch {
+		t.Errorf("expected not exact match when both selected facts are missing")
 	}
 }

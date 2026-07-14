@@ -171,7 +171,7 @@ func toSet(ids []string) map[string]bool {
 
 func safeDiv(a, b float64) float64 {
 	if b == 0 {
-		return 1
+		return 0
 	}
 	return a / b
 }

@@ -69,3 +69,22 @@ Committed all deliverables to a new `localization-pipeline` branch (single commi
 `gh` CLI wasn't installed in this environment, so opened the PR via a direct GitHub REST API call instead, authenticating with the token already embedded in the `origin` remote URL (extracted into a shell variable, never printed or logged). Confirmed via the API that the repository is already public (`private: false`), satisfying the "public GitHub repository" deliverable without needing to change any repo settings myself.
 
 Opened: [https://github.com/rosty-git/test-repo/pull/1](https://github.com/rosty-git/test-repo/pull/1)
+
+---
+
+## 2026-07-14 (5)
+
+**Prompt:**
+> In internal/evaluate/consistency.go, safeDiv returns 1.0 when both arguments are zero. This inflates precision and F1 when the extractor returns a completely empty result — zero true positives should score zero, not one. Fix safeDiv to return 0.0 for the 0/0 case. Update consistency_test.go if needed.
+
+**Response:**
+Confirmed the bug: `safeDiv(0, 0)` returning `1` meant that when the extractor found nothing at all for a non-empty selection (0 matched, 0 extra, 0 invented - so both true positives and false positives are 0), precision was reported as a perfect `1.0` even though nothing was actually verified. F1 happened to still come out `0` in that specific case because recall was correctly `0`, but the inflated precision was still a wrong, misleading number on its own, and the same 0/0 pattern could inflate F1 too if a future change to the formula (or a caller reading `Precision` directly) relied on it.
+
+Changed `safeDiv` to return `0` for the `b == 0` case instead of `1`
+(`internal/evaluate/consistency.go`). Since `b` is always `truePositives + falseNegatives` (recall) or `truePositives + falsePositives` (precision) and both terms are non-negative, `b == 0` only ever happens when `a == 0` too, so this doesn't change behavior for any case with actual true positives.
+
+Updated `internal/evaluate/consistency_test.go`:
+- `TestScore_EmptySelectionDoesNotDivideByZero` (nothing selected, nothing extracted) now asserts `Recall == 0 && Precision == 0 && F1 == 0` instead of `== 1` - `ExactMatch` is still `true` for this case since there's no discrepancy, but that's a separate flag from the scores.
+- Added `TestScore_EmptyExtractionDoesNotScorePerfectPrecision`, which is the actual bug scenario: a non-empty selection (2 facts) with a completely empty `Extraction{}` - asserts precision, recall, and F1 are all `0`, and `ExactMatch` is `false`.
+
+`go build ./...`, `go vet ./...`, `go test ./...` (including the pipeline retry-loop test, which never happened to exercise the 0/0 path) and `gofmt -l .` all clean.
