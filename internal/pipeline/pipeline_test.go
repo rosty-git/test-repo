@@ -9,6 +9,17 @@ import (
 	"github.com/rosty-git/test-repo/internal/model"
 )
 
+// enqueueNativeness scripts the 3 identical judge-call responses
+// JudgeNativeness now samples per call (see evaluate.nativenessSamples).
+// Tests that need to exercise median-of-3 noise directly against
+// JudgeNativeness live in internal/evaluate/nativeness_test.go; these
+// RunHotel-level tests just need a fixed, unambiguous score per attempt.
+func enqueueNativeness(fake *llmfake.Client, score int, reasoning string, issues []string) {
+	for i := 0; i < 3; i++ {
+		fake.Enqueue("submit_nativeness_score", map[string]any{"score": score, "reasoning": reasoning, "issues": issues})
+	}
+}
+
 func testHotel() model.Hotel {
 	return model.Hotel{
 		ID:        "hotel-001",
@@ -44,29 +55,25 @@ func TestRunHotel_RetriesUntilConsistentAndNative(t *testing.T) {
 	fake.Enqueue("submit_extraction", map[string]any{
 		"matched_fact_ids": factIDs,
 	})
-	fake.Enqueue("submit_nativeness_score", map[string]any{
-		"score": 5, "reasoning": "reads naturally", "issues": []string{},
-	})
+	enqueueNativeness(fake, 5, "reads naturally", nil)
 
 	// German: attempt 1 drops amenities.0 (the pool).
 	fake.Enqueue("submit_description", map[string]any{"text": "Das Strandhaus Aurora liegt in Sylt."})
 	fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": []string{"core.name"}})
-	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+	enqueueNativeness(fake, 5, "fluent", nil)
 	// German: attempt 2 fixes it.
 	fake.Enqueue("submit_description", map[string]any{"text": "Das Strandhaus Aurora in Sylt erwartet Sie mit beheiztem Freibad."})
 	fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
-	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+	enqueueNativeness(fake, 5, "fluent", nil)
 
 	// French: attempt 1 is factually exact but reads as a literal translation.
 	fake.Enqueue("submit_description", map[string]any{"text": "Strandhaus Aurora vous accueille avec une piscine exterieure chauffee a Sylt."})
 	fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
-	fake.Enqueue("submit_nativeness_score", map[string]any{
-		"score": 2, "reasoning": "reads like a translation", "issues": []string{"unnatural word order"},
-	})
+	enqueueNativeness(fake, 2, "reads like a translation", []string{"unnatural word order"})
 	// French: attempt 2 improves phrasing.
 	fake.Enqueue("submit_description", map[string]any{"text": "A Sylt, le Strandhaus Aurora vous accueille autour d'une piscine exterieure chauffee."})
 	fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
-	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "idiomatic", "issues": []string{}})
+	enqueueNativeness(fake, 5, "idiomatic", nil)
 
 	cfg := Config{MaxAttempts: 2, ConsistencyWeight: 0.7, NativenessWeight: 0.3, NativenessPassBar: 4}
 
@@ -149,17 +156,17 @@ func TestRunHotel_EnglishBaseFailsAttempt1RecoversAttempt2(t *testing.T) {
 
 	// English attempt 1: scored directly, no submit_description call yet.
 	fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": []string{"core.name"}})
-	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+	enqueueNativeness(fake, 5, "fluent", nil)
 	// English attempt 2: regenerated via InLanguage with the missing-fact feedback, fixes it.
 	fake.Enqueue("submit_description", map[string]any{"text": "Strandhaus Aurora welcomes you to Sylt with a heated outdoor pool."})
 	fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
-	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+	enqueueNativeness(fake, 5, "fluent", nil)
 
 	// German and French pass immediately on attempt 1 so they add no noise.
 	for _, lang := range []string{"German", "French"} {
 		fake.Enqueue("submit_description", map[string]any{"text": "placeholder " + lang + " text"})
 		fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
-		fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+		enqueueNativeness(fake, 5, "fluent", nil)
 	}
 
 	cfg := Config{MaxAttempts: 2, ConsistencyWeight: 0.7, NativenessWeight: 0.3, NativenessPassBar: 4}
@@ -234,17 +241,17 @@ func TestRunHotel_EnglishBaseHallucinationCaughtByIndependentExtraction(t *testi
 		"matched_fact_ids":   factIDs,
 		"unsupported_claims": []string{"private helicopter pad"},
 	})
-	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+	enqueueNativeness(fake, 5, "fluent", nil)
 	// English attempt 2: regenerated via InLanguage with the invented-claim feedback, drops it.
 	fake.Enqueue("submit_description", map[string]any{"text": "Strandhaus Aurora welcomes you to Sylt with a heated outdoor pool."})
 	fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
-	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+	enqueueNativeness(fake, 5, "fluent", nil)
 
 	// German and French pass immediately on attempt 1 so they add no noise.
 	for _, lang := range []string{"German", "French"} {
 		fake.Enqueue("submit_description", map[string]any{"text": "placeholder " + lang + " text"})
 		fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
-		fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+		enqueueNativeness(fake, 5, "fluent", nil)
 	}
 
 	cfg := Config{MaxAttempts: 2, ConsistencyWeight: 0.7, NativenessWeight: 0.3, NativenessPassBar: 4}

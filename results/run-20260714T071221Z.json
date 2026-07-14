@@ -1,0 +1,427 @@
+[
+  {
+    "hotel": {
+      "id": "hotel-001",
+      "name": "Strandhaus Aurora",
+      "city": "Sylt",
+      "country": "Germany",
+      "setting": "beachfront",
+      "amenities": [
+        "heated outdoor pool",
+        "spa with sauna (adults only)",
+        "two restaurants",
+        "free bike rental",
+        "EV charging"
+      ],
+      "rooms": [
+        "double rooms",
+        "sea-view suites",
+        "family apartments for up to 4"
+      ],
+      "nearby": [
+        "3 minute walk to the beach",
+        "15 minutes to Westerland centre",
+        "guided tidal-flat hikes"
+      ],
+      "policies": [
+        "breakfast included",
+        "dogs allowed in ground-floor rooms only",
+        "free cancellation up to 14 days before arrival"
+      ],
+      "price_band": "premium"
+    },
+    "selected_fact_ids": [
+      "core.name",
+      "core.city",
+      "core.setting",
+      "core.price_band",
+      "nearby.0",
+      "amenities.0",
+      "amenities.1",
+      "amenities.2",
+      "rooms.0",
+      "rooms.1",
+      "rooms.2",
+      "policies.0"
+    ],
+    "languages": {
+      "de": {
+        "language": "de",
+        "attempts": [
+          {
+            "n": 1,
+            "text": "Das Strandhaus Aurora empfängt Sie in direkter Strandlage auf Sylt – nur 3 Gehminuten vom Meer entfernt. Dieses Premium-Hotel bietet Doppelzimmer, Suiten mit Meerblick und Familienapartments für bis zu 4 Personen. Freuen Sie sich auf einen beheizten Außenpool, einen Wellnessbereich mit Sauna (nur für Erwachsene) sowie zwei Restaurants. Das Frühstück ist im Preis inbegriffen.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0"
+              ],
+              "matched": [
+                "amenities.0",
+                "amenities.1",
+                "policies.0",
+                "core.name",
+                "core.city",
+                "nearby.0",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "core.setting",
+                "core.price_band"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 3,
+              "reasoning": "The text is generally fluent and understandable, but contains several phrases that feel translated from English hotel marketing copy rather than written natively in German. The most obvious issue is \"Freuen Sie sich auf\" (literally \"look forward to\"), which is a direct calque of the English \"look forward to\" commonly found in hotel descriptions. While grammatically correct, it's overused in translated marketing copy and sounds formulaic. Native German marketing would more naturally use \"Genießen Sie\" (enjoy), \"Nutzen Sie\" (use/take advantage of), or simply list the amenities without this phrase. Additionally, \"Das Frühstück ist im Preis inbegriffen\" is correct but slightly stiff - \"Frühstück inklusive\" or \"inklusive Frühstück\" would be more natural and punchier for marketing copy. The phrase \"empfängt Sie\" (welcomes you) is acceptable but also has a translated feel - native copy might prefer \"erwartet Sie\" or simply start with the location. The overall structure and word choices are competent but lack the natural flow of copy written directly in German.",
+              "issues": [
+                "[\"Freuen Sie sich auf\" (calque of English \"look forward to\" - overused in translations)\", \"Das Frühstück ist im Preis inbegriffen\" (too formal/stiff - \"Frühstück inklusive\" more natural)\", \"empfängt Sie\" (acceptable but slightly translated-sounding)\"]"
+              ]
+            },
+            "overall_score": 0.8799999999999999,
+            "pass": false
+          },
+          {
+            "n": 2,
+            "text": "Das Strandhaus Aurora liegt direkt am Meer in Sylt, nur 3 Gehminuten vom Strand entfernt. Zur gehobenen Ausstattung gehören ein beheizter Außenpool, ein Spa mit Sauna (nur für Erwachsene) sowie zwei Restaurants. Doppelzimmer, Suiten mit Meerblick und Familienapartments für bis zu 4 Personen stehen zur Verfügung. Frühstück inklusive.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0"
+              ],
+              "matched": [
+                "nearby.0",
+                "amenities.2",
+                "policies.0",
+                "amenities.0",
+                "amenities.1",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "core.name",
+                "core.city",
+                "core.setting"
+              ],
+              "missing": [
+                "core.price_band"
+              ],
+              "contradicted": null,
+              "extra": null,
+              "invented": [
+                "[\"zur gehobenen Ausstattung gehören\" (premium/upscale characterization - while core.price_band says premium, the text explicitly describes the amenities as upscale/premium which is a marketing claim about the amenities themselves)]"
+              ],
+              "precision": 0.9166666666666666,
+              "recall": 0.9166666666666666,
+              "f1": 0.9166666666666666,
+              "exact_match": false
+            },
+            "nativeness": {
+              "score": 3,
+              "reasoning": "The text is generally understandable and mostly fluent, but contains several phrases that feel translated or slightly unnatural for German marketing copy. The most notable issue is \"Zur gehobenen Ausstattung gehören\" which is a calque of the English \"amenities include\" construction - this sounds bureaucratic and stiff in German marketing context. \"Stehen zur Verfügung\" at the end is also overly formal and administrative-sounding for hotel marketing. A native German copywriter would likely use more dynamic, inviting language. Additionally, \"nur 3 Gehminuten vom Strand entfernt\" while grammatically correct, has a slightly translated feel - \"nur 3 Minuten zu Fuß zum Strand\" or \"3 Gehminuten zum Strand\" would be more natural. The overall tone leans toward administrative/informational rather than the warmer, more engaging style typical of German hotel marketing.",
+              "issues": [
+                "[\"Zur gehobenen Ausstattung gehören\" (calque of \"amenities include\"), \"stehen zur Verfügung\" (overly administrative for marketing), \"nur 3 Gehminuten vom Strand entfernt\" (slightly awkward construction)]"
+              ]
+            },
+            "overall_score": 0.8216666666666665,
+            "pass": false
+          },
+          {
+            "n": 3,
+            "text": "Das Strandhaus Aurora empfängt Sie in direkter Strandlage auf Sylt, nur 3 Gehminuten vom Meer entfernt. Freuen Sie sich auf einen beheizten Außenpool, zwei Restaurants, einen Spa mit Sauna (nur für Erwachsene) sowie Doppelzimmer, Suiten mit Meerblick und Familienapartments für bis zu 4 Personen. Das Frühstück ist im Preis inbegriffen. Eine Premium-Adresse für Ihren Inselurlaub.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0"
+              ],
+              "matched": [
+                "amenities.2",
+                "rooms.2",
+                "core.name",
+                "core.setting",
+                "nearby.0",
+                "rooms.0",
+                "rooms.1",
+                "policies.0",
+                "core.city",
+                "core.price_band",
+                "amenities.0",
+                "amenities.1"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 3,
+              "reasoning": "The text is generally fluent and understandable, but contains several phrases that feel translated from English hotel marketing copy rather than naturally written in German. The most glaring issue is \"Freuen Sie sich auf\" (literally \"look forward to\") which is a direct calque of the English \"look forward to\" commonly found in hotel descriptions. While grammatically correct, it's overused in translated hotel copy and feels formulaic. The phrase \"Das Frühstück ist im Preis inbegriffen\" is also somewhat stilted - a native writer would more likely say \"inklusive Frühstück\" or \"mit Frühstück\". Additionally, \"empfängt Sie\" (welcomes you) is another English hotel marketing cliché translated literally. The combination of \"direkte Strandlage\" and \"nur 3 Gehminuten vom Meer entfernt\" is contradictory and confusing - if it's directly on the beach, why is it 3 minutes from the sea? This suggests poorly adapted translation. \"Premium-Adresse\" works but feels slightly marketing-jargon-y in a translated way.",
+              "issues": [
+                "[\"Freuen Sie sich auf\" (calque of English \"look forward to\"), \"Das Frühstück ist im Preis inbegriffen\" (stilted, better: \"inklusive Frühstück\"), \"empfängt Sie\" (translated hotel cliché), \"direkte Strandlage\" + \"nur 3 Gehminuten vom Meer\" (contradictory/confusing logic), \"Premium-Adresse\" (slightly jargon-y in translated way)]"
+              ]
+            },
+            "overall_score": 0.8799999999999999,
+            "pass": false
+          },
+          {
+            "n": 4,
+            "text": "Das Strandhaus Aurora liegt direkt am Strand von Sylt, nur 3 Gehminuten vom Wasser entfernt. Das Haus bietet einen beheizten Außenpool, ein Spa mit Sauna (nur für Erwachsene) sowie zwei Restaurants. Zur Wahl stehen Doppelzimmer, Suiten mit Meerblick und Familienapartments für bis zu 4 Personen – inklusive Frühstück. Eine erstklassige Adresse im gehobenen Preissegment.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0"
+              ],
+              "matched": [
+                "core.name",
+                "core.city",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.2",
+                "rooms.1",
+                "amenities.1",
+                "rooms.0",
+                "rooms.2",
+                "policies.0"
+              ],
+              "missing": null,
+              "contradicted": [
+                "core.setting"
+              ],
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 0.9166666666666666,
+              "f1": 0.9565217391304348,
+              "exact_match": false
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "The text is generally well-written and fluent, with natural German marketing language. However, there are a couple of minor issues that suggest translation influence. The phrase \"nur 3 Gehminuten vom Wasser entfernt\" is slightly redundant since \"direkt am Strand\" already establishes beach proximity - this feels like it might be translating \"just 3 minutes walk from the water\" literally. A native writer would likely either say \"direkt am Strand\" OR give the walking distance, not both in this way. Additionally, \"Zur Wahl stehen\" is grammatically correct but slightly formal/bureaucratic for modern marketing copy - \"Wählen Sie zwischen\" or simply listing with \"verfügbar sind\" would sound more contemporary and engaging. The phrase \"Eine erstklassige Adresse\" is good but slightly dated - more modern marketing might use \"Ein erstklassiges Hotel\" or integrate this into the previous sentence. Overall, the text is quite good and would work well, but these small details suggest it may have been translated or written by someone thinking in English patterns.",
+              "issues": [
+                "[\"nur 3 Gehminuten vom Wasser entfernt\" (redundant with \"direkt am Strand\"), \"Zur Wahl stehen\" (slightly formal/bureaucratic for marketing), \"Eine erstklassige Adresse\" (somewhat dated phrasing as standalone sentence)]"
+              ]
+            },
+            "overall_score": 0.9095652173913044,
+            "pass": false
+          },
+          {
+            "n": 5,
+            "text": "Das Strandhaus Aurora empfängt Sie in direkter Strandlage auf Sylt und verbindet Premium-Komfort mit maritimem Flair. Nur 3 Gehminuten vom Strand entfernt erwarten Sie Doppelzimmer, Suiten mit Meerblick und Familienapartments für bis zu 4 Personen. Entspannen Sie im beheizten Außenpool, genießen Sie kulinarische Köstlichkeiten in zwei Restaurants oder erholen Sie sich im Spa mit Sauna (nur für Erwachsene). Das Frühstück ist bereits inklusive.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0"
+              ],
+              "matched": [
+                "core.name",
+                "core.price_band",
+                "amenities.1",
+                "rooms.2",
+                "policies.0",
+                "core.city",
+                "core.setting",
+                "nearby.0",
+                "amenities.0",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [
+                "verbindet Premium-Komfort mit maritimem Flair",
+                "genießen Sie kulinarische Köstlichkeiten"
+              ],
+              "precision": 0.8571428571428571,
+              "recall": 1,
+              "f1": 0.923076923076923,
+              "exact_match": false
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "This is very solid German marketing copy that reads mostly native, with good flow and appropriate register for hotel marketing. The structure is natural, the vocabulary choices are generally idiomatic, and it uses typical German marketing conventions. However, there are a couple of minor elements that feel slightly influenced by English hospitality copy conventions: \"empfängt Sie\" (welcomes you) is a bit formal/old-fashioned for modern German hotel marketing, though not wrong. More notably, \"Nur 3 Gehminuten vom Strand entfernt\" creates a slight logical inconsistency with the opening \"in direkter Strandlage\" (directly on the beach) - if it's directly on the beach, why mention it's 3 walking minutes away? This feels like it might be combining two different English marketing phrases. The phrase \"Das Frühstück ist bereits inklusive\" is perfectly correct but \"bereits\" (already) feels slightly unnecessary - native copy would more likely say \"Frühstück inklusive\" or \"inklusive Frühstück\". These are minor issues that prevent it from being a perfect 5, but overall this reads at a high native level.",
+              "issues": [
+                "[\"empfängt Sie\" (slightly formal/dated for modern marketing), \"Nur 3 Gehminuten vom Strand entfernt\" (contradicts \"direkter Strandlage\"), \"Das Frühstück ist bereits inklusive\" (\"bereits\" feels slightly redundant)]"
+              ]
+            },
+            "overall_score": 0.8861538461538461,
+            "pass": false
+          }
+        ]
+      },
+      "en": {
+        "language": "en",
+        "attempts": [
+          {
+            "n": 1,
+            "text": "Discover Strandhaus Aurora, a premium beachfront retreat in Sylt, Germany, just a 3-minute walk from the shore. Unwind in the heated outdoor pool or indulge at the adults-only spa with sauna, then savor fresh flavors at one of two on-site restaurants. Choose from double rooms, sea-view suites, or family apartments for up to 4, with breakfast included each morning.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0"
+              ],
+              "matched": [
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.1",
+                "rooms.2",
+                "policies.0",
+                "core.name",
+                "core.city",
+                "amenities.0",
+                "rooms.0"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 5,
+              "reasoning": "This text reads as native English marketing copy. The vocabulary choices are natural and appropriate for the hospitality industry (\"premium beachfront retreat,\" \"unwind,\" \"indulge,\" \"savor fresh flavors\"). The sentence structure flows smoothly with varied rhythm - opening with an imperative \"Discover,\" followed by compound sentences that effectively list amenities without feeling mechanical. The register is consistently upbeat and aspirational, typical of hotel marketing. Collocations are idiomatic (\"heated outdoor pool,\" \"adults-only spa,\" \"sea-view suites,\" \"breakfast included\"). There are no calques, awkward word order, or over-literal translations. The copy balances descriptive detail with conciseness in a way that feels professionally crafted for an English-speaking audience.",
+              "issues": []
+            },
+            "overall_score": 1,
+            "pass": true
+          }
+        ]
+      },
+      "fr": {
+        "language": "fr",
+        "attempts": [
+          {
+            "n": 1,
+            "text": "Situé en bord de mer à Sylt, en Allemagne, le Strandhaus Aurora est un établissement haut de gamme à seulement 3 minutes à pied de la plage. Vous profiterez d'une piscine extérieure chauffée, d'un spa avec sauna réservé aux adultes, et de deux restaurants. L'hôtel propose des chambres doubles, des suites avec vue sur la mer et des appartements familiaux pouvant accueillir jusqu'à 4 personnes. Le petit-déjeuner est inclus.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0"
+              ],
+              "matched": [
+                "policies.0",
+                "core.city",
+                "core.setting",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1",
+                "core.name",
+                "core.price_band",
+                "amenities.0",
+                "rooms.2"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "This text is generally well-written and flows naturally in French. The vocabulary is appropriate for hotel marketing copy, and most phrases sound native. However, there are a couple of minor elements that suggest translation from English rather than original French composition:\n\n1. \"Vous profiterez\" is grammatically correct but feels slightly formal/stiff for modern marketing copy. A native writer might prefer \"Profitez de\" (imperative) or simply list the amenities without this construction.\n\n2. \"des appartements familiaux pouvant accueillir jusqu'à 4 personnes\" - while correct, \"pouvant accueillir\" is a bit heavy. Native marketing copy would more likely say \"pour 4 personnes\" or \"jusqu'à 4 personnes\" without the \"pouvant accueillir.\"\n\n3. \"Le petit-déjeuner est inclus\" is perfectly correct but slightly administrative. Marketing copy might prefer \"Petit-déjeuner inclus\" or \"avec petit-déjeuner inclus\" for a more dynamic feel.\n\nThe overall structure and word choices are good, but these small touches reveal a translation approach rather than native copywriting. The text prioritizes accuracy over the punchy, streamlined style typical of French hospitality marketing.",
+              "issues": [
+                "[\"Vous profiterez\" (slightly formal/translated feel), \"pouvant accueillir jusqu'à 4 personnes\" (heavy phrasing), \"Le petit-déjeuner est inclus\" (administrative rather than marketing tone)]"
+              ]
+            },
+            "overall_score": 0.94,
+            "pass": true
+          }
+        ]
+      }
+    }
+  }
+]

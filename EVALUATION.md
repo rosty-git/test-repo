@@ -65,19 +65,41 @@ run this describes.
    went from 2/3 → 3/3 language passes with this change.
 
 Net effect across those changes, on the two sample hotels: the very first working
-end-to-end run passed 4/6 language outputs; the final configuration passed 5/6 on a
-fresh run, with the sixth (`hotel-001` German) failing purely on nativeness
+end-to-end run passed 4/6 language outputs; the configuration through item (4) passed
+5/6 on a fresh run, with the sixth (`hotel-001` German) failing purely on nativeness
 (stuck at 3/5 after 5 attempts) while staying factually exact throughout — i.e. the
 consistency gate never let a factually-wrong description through, and the one
-persistent failure mode left is a nativeness-judge plateau, not silent drift.
+persistent failure mode left was a nativeness-judge plateau, not silent drift.
+
+5. **A single judge call was noisy enough to cause that plateau.** The same
+   `hotel-001` German text scored 3/5 on one judge call and would plausibly have
+   scored 4/5 on a re-ask — the "plateau" in (4) wasn't the text failing to improve,
+   it was single-sample judge noise producing a different nitpick each time. Changed
+   `evaluate.JudgeNativeness` (`internal/evaluate/nativeness.go`) to fire 3 judge
+   calls in parallel per rating and return the one whose score is the statistical
+   median (sorted ascending, middle of 3 - ties from duplicate scores resolve to
+   whichever value sits at the middle index, which favors the lower score when the
+   duplicate is on the low side, e.g. `[3,3,5] -> 3`). Re-running `hotel-001` after
+   this change: the English base's nativeness stabilized at a clean 5/5 (previously
+   always exactly 4/5 across every run in this log, itself a sign of a systematic
+   single-call bias, not just noise) - see `results/run-20260714T071221Z.json`.
+   German in that same run still didn't converge within 5 attempts, but for a
+   different, more informative reason than before: consistency and nativeness are
+   still visibly trading off against each other on this specific text
+   (`F1 1.00/native 3 → F1 0.92/native 3 → F1 1.00/native 3 → F1 0.96/native 4 → F1
+   0.92/native 4`) even with the fix-facts-then-phrasing ordering from (3) and the
+   surgical-edit instruction from (4) - the model doesn't always honor "don't change
+   any fact" when asked to fix wording. That's the next thing to fix, not a nativeness
+   judge problem anymore.
 
 ## What I'd do with more time
 
-- **De-noise the nativeness judge.** A single temperature-0 judge call still finds a
-  *different* nitpick each time the text changes slightly, so a text can plateau at
-  3/5 indefinitely even as it genuinely improves. I'd sample the judge 3x and take
-  the median, and/or have it compare against the previous attempt directly ("is this
-  strictly more native than the last draft, yes/no") instead of an absolute score.
+- **Make the "don't change any fact" instruction actually hold.** Even with facts
+  fixed first and a surgical-edit instruction (points 3-4 above), a phrasing-only
+  retry can still quietly reintroduce a missing/altered fact - see item 5. I'd
+  consider a stricter diff-based retry (have the model return a list of edits to
+  apply to specific sentences rather than a full rewrite) so a fact-only sentence
+  can never be touched by a phrasing-only fix.
 - **Calibrate the nativeness bar with real native speakers** on a small sample
   instead of trusting the judge's own 1–5 rubric at face value — an LLM judge's "4"
   and a Sylt local's "4" aren't guaranteed to agree.
