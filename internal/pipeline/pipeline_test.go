@@ -208,3 +208,92 @@ func TestRunHotel_EnglishBaseFailsAttempt1RecoversAttempt2(t *testing.T) {
 		t.Errorf("expected exactly 1 English regeneration call, got %d", englishRegenCalls)
 	}
 }
+
+// TestRunHotel_EnglishBaseHallucinationCaughtByIndependentExtraction covers
+// a different failure mode than the missing-fact test above: EnglishBase()
+// "passes" by its own self-report - every fact_id it declared is genuinely
+// present in the text - but the text also contains an invented claim the
+// source never supports. If English only trusted its own fact_ids/text
+// pairing, this would look fine. The independent evaluate.Extract() call
+// (same one German/French go through) must still catch the unsupported
+// claim and fail the attempt, and the retry must be fed that specific
+// invented claim as feedback.
+func TestRunHotel_EnglishBaseHallucinationCaughtByIndependentExtraction(t *testing.T) {
+	fake := llmfake.New()
+	factIDs := []string{"core.name", "amenities.0"}
+	baseText := "Strandhaus Aurora welcomes you to Sylt with a heated outdoor pool and a private helicopter pad."
+
+	fake.Enqueue("submit_selection", map[string]any{
+		"fact_ids": factIDs,
+		"text":     baseText, // both declared facts are genuinely in the text - self-report "passes"
+	})
+
+	// English attempt 1: recall is perfect (both facts matched), but
+	// independent extraction flags the helicopter pad as unsupported.
+	fake.Enqueue("submit_extraction", map[string]any{
+		"matched_fact_ids":   factIDs,
+		"unsupported_claims": []string{"private helicopter pad"},
+	})
+	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+	// English attempt 2: regenerated via InLanguage with the invented-claim feedback, drops it.
+	fake.Enqueue("submit_description", map[string]any{"text": "Strandhaus Aurora welcomes you to Sylt with a heated outdoor pool."})
+	fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
+	fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+
+	// German and French pass immediately on attempt 1 so they add no noise.
+	for _, lang := range []string{"German", "French"} {
+		fake.Enqueue("submit_description", map[string]any{"text": "placeholder " + lang + " text"})
+		fake.Enqueue("submit_extraction", map[string]any{"matched_fact_ids": factIDs})
+		fake.Enqueue("submit_nativeness_score", map[string]any{"score": 5, "reasoning": "fluent", "issues": []string{}})
+	}
+
+	cfg := Config{MaxAttempts: 2, ConsistencyWeight: 0.7, NativenessWeight: 0.3, NativenessPassBar: 4}
+
+	result, err := RunHotel(context.Background(), fake, cfg, testHotel(), func(string) {})
+	if err != nil {
+		t.Fatalf("RunHotel returned error: %v", err)
+	}
+
+	en := result.Languages[model.English]
+	if len(en.Attempts) != 2 {
+		t.Fatalf("expected English to take 2 attempts, got %d", len(en.Attempts))
+	}
+
+	first := en.Attempts[0]
+	if first.Pass {
+		t.Errorf("expected English attempt 1 to fail - independent extraction found an unsupported claim")
+	}
+	if first.Text != baseText {
+		t.Errorf("expected attempt 1 to score the EnglishBase text as-is, got %q", first.Text)
+	}
+	if len(first.Consistency.Missing) != 0 || len(first.Consistency.Contradicted) != 0 {
+		t.Errorf("expected recall to be perfect on attempt 1 (this is a precision failure, not a missing fact), got missing=%v contradicted=%v",
+			first.Consistency.Missing, first.Consistency.Contradicted)
+	}
+	if len(first.Consistency.Invented) != 1 || first.Consistency.Invented[0] != "private helicopter pad" {
+		t.Errorf("expected the helicopter pad flagged as an unsupported claim, got %+v", first.Consistency.Invented)
+	}
+	if first.Consistency.ExactMatch {
+		t.Errorf("expected exact_match to be false when there is an unsupported claim")
+	}
+
+	if !en.Final().Pass {
+		t.Errorf("expected English to pass by attempt 2")
+	}
+	if en.Final().Text == first.Text {
+		t.Errorf("expected attempt 2 to use a freshly generated text, not the reused EnglishBase text")
+	}
+
+	var englishRegenCalls int
+	for _, call := range fake.Calls {
+		if call.ToolName == "submit_description" && strings.Contains(call.User, "native English") {
+			englishRegenCalls++
+			if !strings.Contains(call.User, "Invented claims") || !strings.Contains(call.User, "private helicopter pad") {
+				t.Errorf("expected the English retry prompt to carry the invented-claim feedback, got: %s", call.User)
+			}
+		}
+	}
+	if englishRegenCalls != 1 {
+		t.Errorf("expected exactly 1 English regeneration call, got %d", englishRegenCalls)
+	}
+}

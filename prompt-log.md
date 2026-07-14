@@ -118,3 +118,19 @@ Did not change the constant before checking the claim, since this exact slug is 
 Reported that back to the user with the evidence instead of making the edit, since the premise ("returns a 404 on every call, nothing works") directly contradicted what had already been empirically verified and shipped in this PR - changing a working, tested constant to some other guessed slug on the strength of an unverified claim would have been more likely to break the integration than fix it. Asked whether to leave it as-is or pin to a specific different model for an unrelated reason.
 
 User confirmed: leave it as-is. No changes made to `internal/llm/anthropic.go` or `README.md`.
+
+---
+
+## 2026-07-14 (8)
+
+**Prompt:**
+> Right now the English base grades its own homework — EnglishBase() writes the text and declares the fact_ids in the same call, and we never independently check it. After calling EnglishBase() in pipeline.go, run the English text through evaluate.Extract() against the full fact catalog, just like German and French. If it fails exact_match or has unsupported claims, feed the consistency feedback into a retry via InLanguage(). Add a test covering the case where the English base passes generation but fails independent extraction.
+
+**Response:**
+Re-read `RunHotel` again before touching anything, since this is the third request in a row describing a fix that sounded like it might already be in place. Confirmed: `evaluate.Extract(ctx, client, hotel, lang, text)` and `evaluate.Score(...)` run unconditionally inside the shared attempt loop for every language on every attempt - there is no `lang == English` special case that skips them. English's attempt 1 (`text := sel.Text`, the raw `EnglishBase` output) already goes through the exact same independent extraction German/French do. `unsupported_claims` from the extractor already flow into `ConsistencyScore.Invented`, already gate `ExactMatch` (`len(...Invented) == 0` is one of the four `&&` conditions), and `ConsistencyScore.Feedback()` already renders an "Invented claims not supported by any fact - remove them" block that reaches the attempt-2 `InLanguage()` retry prompt. So "grades its own homework" doesn't describe the current code - English was never exempted from the independent check. No changes made to `internal/pipeline/pipeline.go`, `internal/generate/generate.go`, or `internal/evaluate`.
+
+What *was* a real, non-duplicate gap: no existing test exercised the unsupported-claims failure mode specifically for English. The prior test (`TestRunHotel_EnglishBaseFailsAttempt1RecoversAttempt2`, added two turns ago) only covered a *missing* fact (a recall failure). "Passes generation but fails independent extraction" - self-declared `fact_ids` genuinely present in the text, so the model's own self-report is internally consistent, yet the text still contains fabricated content beyond those facts - is a different, precision-side failure mode and wasn't covered anywhere in the RunHotel-level tests.
+
+Added `TestRunHotel_EnglishBaseHallucinationCaughtByIndependentExtraction` to `internal/pipeline/pipeline_test.go`: `EnglishBase` declares `fact_ids=[core.name, amenities.0]` and both are genuinely stated in the text, but the text also invents "a private helicopter pad." Asserts: attempt 1 has zero missing/contradicted facts (recall is perfect - this is specifically a precision failure) but `Invented` contains the helicopter pad claim and `ExactMatch` is false; attempt 2 is a fresh `InLanguage` generation whose prompt carries the "Invented claims" feedback (including the actual invented phrase) forward and drops it; exactly one English regeneration call happens; the run passes by attempt 2.
+
+`go build ./...`, `go vet ./...`, `go test ./...`, `gofmt -l .` all clean; new test passes against the existing (unmodified) pipeline code, same as the extraction wiring it exercises.
