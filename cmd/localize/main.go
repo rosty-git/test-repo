@@ -7,6 +7,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -24,14 +25,15 @@ func main() {
 	outDir := flag.String("out", "results", "directory to write the run's JSON results file")
 	maxAttempts := flag.Int("max-attempts", 0, "override the max retry attempts per language (0 = use default)")
 	hotelID := flag.String("hotel-id", "", "only run the hotel with this id (default: run all)")
+	timeout := flag.Duration("timeout", 20*time.Minute, "maximum time the whole run may take (Go duration string, e.g. 20m, 1h30m)")
 	flag.Parse()
 
-	if err := run(*hotelsPath, *outDir, *maxAttempts, *hotelID); err != nil {
+	if err := run(*hotelsPath, *outDir, *maxAttempts, *hotelID, *timeout); err != nil {
 		log.Fatalf("error: %v", err)
 	}
 }
 
-func run(hotelsPath, outDir string, maxAttempts int, hotelID string) error {
+func run(hotelsPath, outDir string, maxAttempts int, hotelID string, timeout time.Duration) error {
 	hotels, err := model.LoadHotels(hotelsPath)
 	if err != nil {
 		return err
@@ -56,11 +58,17 @@ func run(hotelsPath, outDir string, maxAttempts int, hotelID string) error {
 		cfg.MaxAttempts = maxAttempts
 	}
 
-	ctx := context.Background()
+	start := time.Now()
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
+
 	var results []pipeline.HotelResult
 	for _, hotel := range hotels {
 		res, err := pipeline.RunHotel(ctx, client, cfg, hotel, func(msg string) { fmt.Println(msg) })
 		if err != nil {
+			if errors.Is(err, context.DeadlineExceeded) {
+				return fmt.Errorf("run exceeded -timeout=%s (had been running for %s): %w", timeout, time.Since(start).Round(time.Second), err)
+			}
 			return fmt.Errorf("run hotel %s: %w", hotel.ID, err)
 		}
 		results = append(results, res)

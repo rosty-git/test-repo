@@ -156,3 +156,25 @@ Updated `internal/pipeline/pipeline_test.go`: added an `enqueueNativeness(fake, 
 Ran the real pipeline against `hotel-001` with the change (`ANTHROPIC_API_KEY` from the scratchpad secrets file, never touching the repo) to check it actually helps, not just passes tests: the English base's nativeness score stabilized at a clean 5/5 across the run, whereas every single-call run earlier in this session had scored English exactly 4/5 - i.e. the single-call judge had a systematic bias, not just symmetric noise, and sampling 3x corrected it rather than just averaging out jitter. German on that same run still didn't converge in 5 attempts, but for a visibly different reason than before (consistency and nativeness still trading off against each other on one specific text) rather than a nativeness plateau - a genuine remaining limitation, not something to paper over. Updated `EVALUATION.md`: added item 5 to "what was wrong / what changed" with this evidence (`results/run-20260714T071221Z.json`, committed alongside the original evidence run), and replaced the now-completed "de-noise the nativeness judge" bullet in "what I'd do with more time" with the new, more specific follow-up (making the "don't change any fact" retry instruction actually hold via diff-based edits instead of full rewrites).
 
 `go build ./...`, `go vet ./...`, `go test -race ./...` (the new concurrency made the race detector worth running explicitly), `gofmt -l .` all clean.
+
+---
+
+## 2026-07-14 (10)
+
+**Prompt:**
+> The pipeline in cmd/localize/main.go runs with context.Background() and has no upper time bound. Add a -timeout flag (Go duration string, default "20m"). Wrap the run in context.WithTimeout, pass it down to pipeline.RunHotel, and if the deadline is exceeded print the error plus how long the run had been going. Don't forget to defer cancel().
+
+**Response:**
+Checked first (as with every request this session) and confirmed this one was accurate: `run()` in `cmd/localize/main.go` did call `context.Background()` directly with no timeout anywhere.
+
+Used `flag.Duration("timeout", 20*time.Minute, ...)` rather than a manual string flag + `time.ParseDuration` - it's the standard library's built-in mechanism for exactly "a Go duration string flag" and gets free validation/usage-text formatting. Added `timeout time.Duration` as a new parameter to `run()`. Replaced `ctx := context.Background()` with `start := time.Now()` followed by `ctx, cancel := context.WithTimeout(context.Background(), timeout)` and `defer cancel()` immediately after. `pipeline.RunHotel` already took `ctx` as its first argument, so passing the bounded context down required no signature change there.
+
+For the deadline-exceeded case: wrapped the `pipeline.RunHotel` error check with `errors.Is(err, context.DeadlineExceeded)` and, when true, return an error naming the configured `-timeout` value, how long the run had actually been going (`time.Since(start).Round(time.Second)`), and the original wrapped error - `main()`'s existing `log.Fatalf("error: %v", err)` prints all of it. Traced the error-wrapping chain down through `pipeline.RunHotel` -> `generate.EnglishBase`/`InLanguage` / `evaluate.Extract` / `evaluate.JudgeNativeness` -> `AnthropicClient.CallTool` -> `doCall` to confirm `context.DeadlineExceeded` actually survives that many layers of `fmt.Errorf("...: %w", err)` wrapping for `errors.Is` to find it (it does - `net/http`'s `*url.Error` implements `Unwrap()`, and every layer in this codebase already wraps with `%w` rather than `%v`).
+
+Didn't just trust that trace - verified it live: ran the built binary against the real API with `-timeout 1ms` (`ANTHROPIC_API_KEY` from the scratchpad secrets file) and got exactly the intended message: `run exceeded -timeout=1ms (had been running for 0s): english base for hotel-001: generate english base: context deadline exceeded`, exit code 1. Also checked `-help` output to confirm the flag shows up with the right default (`20m0s`).
+
+Updated `README.md`'s flags section with a `-timeout` example and a short explanation of what it bounds and what happens on expiry, so the doc doesn't drift from the CLI again.
+
+No test file added for `cmd/localize` - there wasn't one before this change, `run()` isn't currently structured to inject a fake `llm.Client` (it calls `llm.NewAnthropicClient()` directly), and the user's ask didn't request one this time; doing so would mean refactoring `main.go`'s client construction beyond what was asked. Flagged this only in case it's wanted later, not treated as an oversight.
+
+`go build ./...`, `go vet ./...`, `go test ./...`, `gofmt -l .` all clean.

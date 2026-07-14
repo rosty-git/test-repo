@@ -55,7 +55,13 @@ go run ./cmd/localize -hotels path/to/hotels.json   # different source data
 go run ./cmd/localize -hotel-id hotel-002           # only run one hotel
 go run ./cmd/localize -max-attempts 3               # override the retry cap (default 5)
 go run ./cmd/localize -out somewhere/               # change the results directory
+go run ./cmd/localize -timeout 45m                  # override the overall run timeout (default 20m)
 ```
+
+`-timeout` bounds the whole run with `context.WithTimeout`, passed down into every
+generation/extraction/judging call. If the deadline is hit, the run stops with an
+error naming the configured timeout and how long the run had actually been going
+before it was cut off.
 
 Source data must match the shape of `testdata/hotels.json`: `id`, `name`, `city`,
 `country`, `setting`, `amenities[]`, `rooms[]`, `nearby[]`, `policies[]`,
