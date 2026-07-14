@@ -1,0 +1,844 @@
+[
+  {
+    "hotel": {
+      "id": "hotel-001",
+      "name": "Strandhaus Aurora",
+      "city": "Sylt",
+      "country": "Germany",
+      "setting": "beachfront",
+      "amenities": [
+        "heated outdoor pool",
+        "spa with sauna (adults only)",
+        "two restaurants",
+        "free bike rental",
+        "EV charging"
+      ],
+      "rooms": [
+        "double rooms",
+        "sea-view suites",
+        "family apartments for up to 4"
+      ],
+      "nearby": [
+        "3 minute walk to the beach",
+        "15 minutes to Westerland centre",
+        "guided tidal-flat hikes"
+      ],
+      "policies": [
+        "breakfast included",
+        "dogs allowed in ground-floor rooms only",
+        "free cancellation up to 14 days before arrival"
+      ],
+      "price_band": "premium"
+    },
+    "selected_fact_ids": [
+      "core.name",
+      "core.city",
+      "core.setting",
+      "core.price_band",
+      "nearby.0",
+      "amenities.0",
+      "amenities.1",
+      "amenities.3",
+      "rooms.0",
+      "rooms.1",
+      "rooms.2",
+      "policies.0",
+      "policies.2"
+    ],
+    "languages": {
+      "de": {
+        "language": "de",
+        "attempts": [
+          {
+            "n": 1,
+            "text": "Das Strandhaus Aurora empfängt Sie in Premium-Lage direkt am Strand von Sylt – nur 3 Gehminuten vom Meer entfernt. Freuen Sie sich auf einen beheizten Außenpool, ein Spa mit Sauna (nur für Erwachsene) sowie kostenlosen Fahrradverleih. Zur Wahl stehen Doppelzimmer, Suiten mit Meerblick und Familienapartments für bis zu 4 Personen. Das Frühstück ist inklusive, und Sie profitieren von kostenfreier Stornierung bis 14 Tage vor Anreise.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0",
+                "policies.2"
+              ],
+              "matched": [
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.3",
+                "policies.0",
+                "policies.2",
+                "core.name",
+                "core.city",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "core.price_band"
+              ],
+              "missing": null,
+              "contradicted": [
+                "core.setting"
+              ],
+              "extra": null,
+              "invented": [
+                "zwei Restaurants (two restaurants) not mentioned",
+                "EV charging not mentioned",
+                "15 minutes to Westerland centre not mentioned",
+                "guided tidal-flat hikes not mentioned",
+                "dogs allowed in ground-floor rooms only not mentioned"
+              ],
+              "precision": 0.7058823529411765,
+              "recall": 0.9230769230769231,
+              "f1": 0.8000000000000002,
+              "exact_match": false
+            },
+            "nativeness": {
+              "score": 3,
+              "reasoning": "The text is generally fluent and understandable, but contains several phrases that are clear calques from English booking platform copy. The most obvious issue is \"Freuen Sie sich auf\" (literally \"look forward to\"), which is a direct translation of the English \"Look forward to\" or \"Enjoy\" commonly used in hotel descriptions. While grammatically correct, this phrase feels formulaic and translated in this context. Additionally, \"Sie profitieren von\" (you profit/benefit from) is another calque of \"you benefit from\" that sounds more like translated marketing speak than natural German. A native German copywriter would more likely use simpler, more direct phrasing. The phrase \"Zur Wahl stehen\" (are available for choice) is also somewhat stiff and formal for modern marketing copy. The overall structure follows English booking platform conventions rather than flowing naturally in German.",
+              "issues": [
+                "[\"Freuen Sie sich auf\" (calque of English \"Look forward to/Enjoy\"), \"Sie profitieren von kostenfreier Stornierung\" (calque of \"you benefit from free cancellation\"), \"Zur Wahl stehen\" (overly formal/stiff for marketing copy)]"
+              ]
+            },
+            "overall_score": 0.74,
+            "pass": false
+          },
+          {
+            "n": 2,
+            "text": "Das Strandhaus Aurora empfängt Sie in direkter Strandlage auf Sylt – nur 3 Gehminuten vom Meer entfernt. Freuen Sie sich auf Doppelzimmer, Suiten mit Meerblick und Familienapartments für bis zu 4 Personen. Zu den Annehmlichkeiten zählen ein beheizter Außenpool, ein Spa mit Sauna (nur für Erwachsene) und kostenloser Fahrradverleih. Das Frühstück ist im Preis inbegriffen, und Sie profitieren von kostenfreier Stornierung bis 14 Tage vor Anreise.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0",
+                "policies.2"
+              ],
+              "matched": [
+                "core.city",
+                "core.setting",
+                "amenities.1",
+                "amenities.3",
+                "rooms.0",
+                "policies.0",
+                "nearby.0",
+                "amenities.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.2",
+                "core.name"
+              ],
+              "missing": [
+                "core.price_band"
+              ],
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 0.9230769230769231,
+              "f1": 0.9600000000000001,
+              "exact_match": false
+            },
+            "nativeness": {
+              "score": 3,
+              "reasoning": "The text is generally fluent and understandable, but contains several telltale signs of translation from English booking platform copy. The most obvious issue is \"Freuen Sie sich auf\" (literally \"look forward to\") which is a direct calque of the English \"Look forward to...\" commonly used in hotel descriptions but sounds stilted in German marketing copy. Native German would more naturally use \"Wir bieten\" or simply list the amenities. \"Zu den Annehmlichkeiten zählen\" is also a translated phrase - while grammatically correct, it's overly formal and typical of English \"Amenities include...\". The phrase \"Sie profitieren von\" (you benefit from) for cancellation policy is another English calque. Additionally, \"Das Frühstück ist im Preis inbegriffen\" sounds translated from \"Breakfast is included in the price\" - more natural would be \"Frühstück inklusive\" or \"inkl. Frühstück\". The overall structure and register feel like they've been adapted from English booking platform templates rather than written natively in German.",
+              "issues": [
+                "[\"Freuen Sie sich auf\" (calque of \"Look forward to\"), \"Zu den Annehmlichkeiten zählen\" (literal translation of \"Amenities include\"), \"Sie profitieren von\" (calque of \"You benefit from\"), \"Das Frühstück ist im Preis inbegriffen\" (translated from \"Breakfast is included in the price\" - more natural: \"Frühstück inklusive\")]"
+              ]
+            },
+            "overall_score": 0.8520000000000001,
+            "pass": false
+          },
+          {
+            "n": 3,
+            "text": "Das Strandhaus Aurora empfängt Sie in bevorzugter Strandlage auf Sylt – nur 3 Gehminuten vom Meer entfernt. Dieses Premium-Hotel bietet Doppelzimmer, Suiten mit Meerblick und Familienapartments für bis zu 4 Personen. Freuen Sie sich auf einen beheizten Außenpool, einen Spa-Bereich mit Sauna (nur für Erwachsene) und kostenfreien Fahrradverleih. Das Frühstück ist im Preis inbegriffen, und Sie profitieren von kostenfreier Stornierung bis 14 Tage vor Anreise.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0",
+                "policies.2"
+              ],
+              "matched": [
+                "core.name",
+                "core.city",
+                "core.price_band",
+                "amenities.1",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "core.setting",
+                "nearby.0",
+                "amenities.0",
+                "policies.0",
+                "policies.2"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 3,
+              "reasoning": "The text is generally fluent and understandable, but contains several phrases that feel translated from English booking platform copy rather than naturally written in German. The overall structure and some word choices reveal its origin as translated marketing content. While a German reader would understand everything, certain formulations would make a native marketing writer pause. The most notable issues are the calqued \"Freuen Sie sich auf\" (literal translation of \"Look forward to/Enjoy\"), the awkward \"nur für Erwachsene\" placement, \"kostenfreier Fahrradverleih\" (more naturally \"Fahrräder kostenlos\"), and \"Sie profitieren von\" which is a direct calque of \"you benefit from.\" Native German hotel copy would use more natural constructions like \"Unser Hotel verfügt über...\" or simply list amenities without the formulaic \"Freuen Sie sich auf.\"",
+              "issues": [
+                "[\"Freuen Sie sich auf einen beheizten Außenpool\" - overly formulaic translation of \"Enjoy/Look forward to\", not how native copy flows, \"einen Spa-Bereich mit Sauna (nur für Erwachsene)\" - the parenthetical placement feels translated; more natural would be \"Erwachsenen-Spa-Bereich\" or different word order, \"kostenfreien Fahrradverleih\" - while grammatically correct, \"Fahrräder kostenlos\" or \"Fahrräder stehen Ihnen kostenfrei zur Verfügung\" sounds more natural, \"Sie profitieren von kostenfreier Stornierung\" - direct calque of \"you benefit from\"; native copy would more likely say \"Kostenfreie Stornierung bis...\" or \"Stornieren Sie kostenfrei bis...\""
+              ]
+            },
+            "overall_score": 0.8799999999999999,
+            "pass": false
+          },
+          {
+            "n": 4,
+            "text": "Das Strandhaus Aurora erwartet Sie in Sylt direkt am Strand, nur 3 Gehminuten vom Meer entfernt. Das Premium-Hotel bietet Doppelzimmer, Suiten mit Meerblick und Familienapartments für bis zu 4 Personen. Zur Ausstattung gehören ein beheizter Außenpool, ein Erwachsenen-Spa-Bereich mit Sauna sowie Fahrräder, die Ihnen kostenfrei zur Verfügung stehen. Das Frühstück ist im Preis inbegriffen, und Sie können kostenfrei bis 14 Tage vor Anreise stornieren.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0",
+                "policies.2"
+              ],
+              "matched": [
+                "rooms.0",
+                "rooms.2",
+                "policies.2",
+                "core.name",
+                "core.city",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "rooms.1",
+                "policies.0",
+                "amenities.3"
+              ],
+              "missing": [
+                "amenities.1"
+              ],
+              "contradicted": [
+                "core.setting"
+              ],
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 0.8461538461538461,
+              "f1": 0.9166666666666666,
+              "exact_match": false
+            },
+            "nativeness": {
+              "score": 3,
+              "reasoning": "The text is generally understandable and mostly fluent, but contains several phrases that feel translated or slightly unnatural for German marketing copy. The most glaring issue is the logical contradiction \"direkt am Strand, nur 3 Gehminuten vom Meer entfernt\" (directly on the beach, only 3 walking minutes from the sea) - if it's directly on the beach, it can't be 3 minutes from the sea. This suggests a literal translation where source text details weren't properly reconciled. \"Erwachsenen-Spa-Bereich\" is a calque of \"adults-only spa area\" that sounds awkward in German. \"Fahrräder, die Ihnen kostenfrei zur Verfügung stehen\" is overly formal and wordy for marketing copy - a native writer would likely say \"kostenfreie Fahrräder\" or \"Fahrräder kostenfrei\". The phrase \"Das Frühstück ist im Preis inbegriffen\" is correct but slightly bureaucratic; \"inklusive Frühstück\" or \"mit Frühstück\" would be more natural in marketing. The cancellation policy phrasing \"kostenfrei bis 14 Tage vor Anreise stornieren\" is acceptable but could be more elegantly expressed.",
+              "issues": [
+                "[\"direkt am Strand, nur 3 Gehminuten vom Meer entfernt\" (logical contradiction - can't be both directly on beach AND 3 minutes away), \"Erwachsenen-Spa-Bereich\" (calque of 'adults-only spa'), \"Fahrräder, die Ihnen kostenfrei zur Verfügung stehen\" (overly formal/wordy), \"Das Frühstück ist im Preis inbegriffen\" (bureaucratic rather than marketing tone)]"
+              ]
+            },
+            "overall_score": 0.8216666666666665,
+            "pass": false
+          },
+          {
+            "n": 5,
+            "text": "Das Strandhaus Aurora empfängt Sie in direkter Strandlage auf Sylt – nur 3 Gehminuten vom Meer entfernt. Dieses Premium-Hotel bietet Doppelzimmer, Suiten mit Meerblick und Familienapartments für bis zu 4 Personen. Freuen Sie sich auf einen beheizten Außenpool, einen Spa mit Sauna (nur für Erwachsene) und kostenlosen Fahrradverleih. Das Frühstück ist inklusive, und Sie profitieren von kostenfreier Stornierung bis 14 Tage vor Anreise.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0",
+                "policies.2"
+              ],
+              "matched": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "nearby.0",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "policies.0",
+                "core.price_band",
+                "amenities.0",
+                "amenities.1",
+                "rooms.2",
+                "policies.2"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 3,
+              "reasoning": "The text is generally fluent and understandable, but contains several phrases that feel translated from English booking platform copy rather than naturally written in German. The most obvious issue is \"empfängt Sie\" (welcomes you) which is a direct calque of the English \"welcomes you\" commonly found in hotel descriptions - native German marketing copy would more naturally use \"erwartet Sie\" or simply start with the location. \"Freuen Sie sich auf\" (look forward to) is overused in translated hotel copy and feels formulaic here. The phrase \"nur für Erwachsene\" in parentheses feels like a literal translation of \"(adults only)\" - a native writer would more likely integrate this more smoothly or use \"Erwachsenenbereich\". \"Profitieren von\" (benefit from) for free cancellation is also a typical translation pattern - Germans would more naturally say \"Sie haben kostenfreie Stornierung\" or simply state it as a feature. The overall structure follows English booking platform conventions rather than German marketing style.",
+              "issues": [
+                "[\"empfängt Sie\" (calque of \"welcomes you\"), \"Freuen Sie sich auf\" (overused translation formula), \"nur für Erwachsene\" in parentheses (literal translation of \"adults only\"), \"profitieren von kostenfreier Stornierung\" (calque of \"benefit from free cancellation\")]"
+              ]
+            },
+            "overall_score": 0.8799999999999999,
+            "pass": false
+          }
+        ]
+      },
+      "en": {
+        "language": "en",
+        "attempts": [
+          {
+            "n": 1,
+            "text": "Strandhaus Aurora offers a premium beachfront escape in Sylt, Germany, just a 3-minute walk from the sand. Unwind in the adults-only spa with sauna or take a dip in the heated outdoor pool. Choose from double rooms, sea-view suites, or family apartments for up to 4, with breakfast included each morning. Explore the island on complimentary bikes, and enjoy the peace of mind that comes with free cancellation up to 14 days before arrival.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0",
+                "policies.2"
+              ],
+              "matched": [
+                "rooms.0",
+                "amenities.1",
+                "rooms.1",
+                "rooms.2",
+                "policies.0",
+                "policies.2",
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.3"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "This copy is quite strong overall and reads mostly like native English marketing content. The structure is clear, the vocabulary is appropriate for the travel industry, and most phrases flow naturally. However, there are a couple of minor elements that give it a slightly translated feel: \"Strandhaus\" (German for \"beach house\") is left untranslated, which while potentially intentional for branding, creates a small friction point for English readers. More notably, \"the peace of mind that comes with free cancellation\" is slightly verbose and formal for modern travel marketing - a native writer would more likely say \"peace of mind with free cancellation\" or simply \"free cancellation up to 14 days before arrival\" without the explanatory clause. The phrase \"take a dip in the heated outdoor pool\" is perfectly natural, as is \"just a 3-minute walk from the sand.\" Overall, this is professional copy that's very close to native-level but has one or two small markers suggesting translation or non-native authorship.",
+              "issues": [
+                "[\"the peace of mind that comes with free cancellation\" - slightly wordy/formal phrasing; native marketing copy would more likely use \"peace of mind with free cancellation\" or omit the explanatory clause entirely]"
+              ]
+            },
+            "overall_score": 0.94,
+            "pass": true
+          }
+        ]
+      },
+      "fr": {
+        "language": "fr",
+        "attempts": [
+          {
+            "n": 1,
+            "text": "Idéalement situé en bord de mer à Sylt, le Strandhaus Aurora vous accueille à 3 minutes à pied de la plage dans un cadre premium. Profitez d'une piscine extérieure chauffée, d'un spa avec sauna réservé aux adultes et d'un service de location de vélos gratuit. Les hébergements comprennent des chambres doubles, des suites avec vue sur la mer et des appartements familiaux pouvant accueillir jusqu'à 4 personnes. Le petit-déjeuner est inclus et l'annulation reste gratuite jusqu'à 14 jours avant l'arrivée.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "core.setting",
+                "core.price_band",
+                "nearby.0",
+                "amenities.0",
+                "amenities.1",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "rooms.2",
+                "policies.0",
+                "policies.2"
+              ],
+              "matched": [
+                "core.city",
+                "core.setting",
+                "nearby.0",
+                "amenities.1",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "policies.2",
+                "core.name",
+                "core.price_band",
+                "amenities.0",
+                "rooms.2",
+                "policies.0"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "This text is generally well-written and flows naturally in French. The structure is clear, the vocabulary is appropriate for hotel marketing copy, and most phrases sound native. However, there are a few minor elements that suggest translation or could be more idiomatic in French marketing context:\n\n1. \"vous accueille à 3 minutes à pied\" - While grammatically correct, the construction feels slightly heavy. A native writer might say \"à 3 minutes à pied de la plage\" without the \"vous accueille\" part, or restructure differently.\n\n2. \"un cadre premium\" - \"Premium\" is used in French marketing, but it's an anglicism. A more native choice might be \"un cadre d'exception,\" \"un cadre haut de gamme,\" or \"un environnement privilégié.\"\n\n3. \"service de location de vélos gratuit\" - This is correct but slightly wordy. \"Prêt de vélos gratuit\" or \"vélos en libre-service\" would sound more natural.\n\n4. \"l'annulation reste gratuite\" - \"Reste\" feels slightly odd here. More natural would be \"l'annulation est gratuite\" or \"annulation gratuite.\"\n\nOverall, the text is quite good and would be acceptable in professional marketing materials, but these small touches reveal it's likely translated rather than originally composed in French.",
+              "issues": [
+                "un cadre premium",
+                "service de location de vélos gratuit",
+                "l'annulation reste gratuite"
+              ]
+            },
+            "overall_score": 0.94,
+            "pass": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "hotel": {
+      "id": "hotel-002",
+      "name": "Pinecrest Lodge",
+      "city": "Chamonix",
+      "country": "France",
+      "setting": "mountain village",
+      "amenities": [
+        "ski-in ski-out access",
+        "indoor pool",
+        "sauna",
+        "boot room with heated racks",
+        "on-site bistro"
+      ],
+      "rooms": [
+        "standard twins",
+        "chalet-style family rooms for up to 5",
+        "one accessible ground-floor room"
+      ],
+      "nearby": [
+        "100 m to the nearest ski lift",
+        "10 minutes to Chamonix centre by free shuttle"
+      ],
+      "policies": [
+        "half board available for a surcharge",
+        "pets welcome",
+        "ski storage included",
+        "free cancellation up to 30 days before arrival"
+      ],
+      "price_band": "premium"
+    },
+    "selected_fact_ids": [
+      "core.name",
+      "core.city",
+      "amenities.0",
+      "nearby.0",
+      "amenities.1",
+      "amenities.2",
+      "amenities.3",
+      "rooms.0",
+      "rooms.1",
+      "policies.1"
+    ],
+    "languages": {
+      "de": {
+        "language": "de",
+        "attempts": [
+          {
+            "n": 1,
+            "text": "Die Pinecrest Lodge in Chamonix, Frankreich, bietet echten Ski-in-Ski-out-Zugang und liegt nur 100 m vom nächsten Skilift entfernt. Nach einem Tag auf der Piste erwarten Sie ein Innenpool, eine Sauna und ein Skiraum mit beheizten Ablagen für Ihre Ausrüstung. Zur Auswahl stehen Standard-Doppelzimmer mit zwei Einzelbetten sowie Familienzimmer im Chalet-Stil für bis zu 5 Personen. Haustiere sind herzlich willkommen.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "amenities.0",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "policies.1"
+              ],
+              "matched": [
+                "core.name",
+                "amenities.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.0",
+                "core.city",
+                "nearby.0",
+                "amenities.3",
+                "rooms.1",
+                "policies.1"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "The text is generally well-written and fluent, with good German marketing language. However, there are a few minor issues that suggest translation influence. The phrase \"echten Ski-in-Ski-out-Zugang\" feels slightly awkward - while \"Ski-in-Ski-out\" is used in German, the addition of \"echten\" (genuine/real) before it sounds like it's translating \"true/real ski-in-ski-out access\" from English marketing copy. A native writer would more likely just say \"direkten Ski-in-Ski-out-Zugang\" or simply \"Ski-in-Ski-out-Zugang\" without the qualifier. The phrase \"beheizten Ablagen\" (heated shelves) is technically correct but slightly unusual - \"beheizte Aufbewahrung\" or \"beheizter Trockenraum\" would be more natural. The rest flows well: \"Nach einem Tag auf der Piste\" is idiomatic, \"Haustiere sind herzlich willkommen\" is perfect marketing German, and the room descriptions are natural.",
+              "issues": [
+                "[\"echten Ski-in-Ski-out-Zugang\" (the qualifier \"echten\" feels like a calque of English \"true/real\"), \"beheizten Ablagen\" (slightly unusual collocation - \"beheizte Aufbewahrung\" or \"beheizter Trockenraum\" would be more natural)]"
+              ]
+            },
+            "overall_score": 0.94,
+            "pass": true
+          }
+        ]
+      },
+      "en": {
+        "language": "en",
+        "attempts": [
+          {
+            "n": 1,
+            "text": "Pinecrest Lodge in Chamonix, France, offers true ski-in ski-out access just 100 metres from the nearest lift, making it perfect for mountain enthusiasts. After a day on the slopes, unwind in the indoor pool and sauna, or warm your gear in the boot room with heated racks. Choose from standard twins or chalet-style family rooms sleeping up to five, with pets welcome throughout your stay.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "amenities.0",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "policies.1"
+              ],
+              "matched": [
+                "core.name",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.0",
+                "policies.1",
+                "core.city",
+                "amenities.0",
+                "amenities.3",
+                "rooms.1"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "This copy is very close to native English marketing writing and flows well overall. The structure is clear, the vocabulary is appropriate, and most phrases sound natural. However, there are a couple of minor elements that give it a slightly translated feel: \"warm your gear\" is an unusual collocation in English marketing copy (we'd more naturally say \"dry your gear\" or \"store your gear in the heated boot room\"), and \"with pets welcome throughout your stay\" has a slightly formal, translated quality - a native writer would more likely say \"pet-friendly\" or \"pets welcome\" as a standalone phrase. The phrase \"true ski-in ski-out access\" is acceptable but the word \"true\" feels like it might be emphasizing authenticity in a way that suggests translation from a language where this distinction is more commonly made. These are subtle issues that don't significantly impair readability but do create a faint non-native impression.",
+              "issues": [
+                "[\"warm your gear\" (unusual collocation - \"dry your gear\" or \"heated storage\" would be more natural), \"with pets welcome throughout your stay\" (slightly formal/translated phrasing - \"pet-friendly\" would be more idiomatic), \"true ski-in ski-out access\" (the word \"true\" feels like translated emphasis)]"
+              ]
+            },
+            "overall_score": 0.94,
+            "pass": true
+          }
+        ]
+      },
+      "fr": {
+        "language": "fr",
+        "attempts": [
+          {
+            "n": 1,
+            "text": "Le Pinecrest Lodge vous accueille à Chamonix avec un accès skis aux pieds et une remontée mécanique à seulement 100 m. Profitez de la piscine intérieure, du sauna et du local à skis équipé de casiers chauffants pour vos chaussures. L'établissement propose des chambres twin standard ainsi que des chambres familiales de style chalet pouvant accueillir jusqu'à 5 personnes. Vos animaux de compagnie sont les bienvenus.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "amenities.0",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "policies.1"
+              ],
+              "matched": [
+                "core.name",
+                "amenities.1",
+                "amenities.3",
+                "core.city",
+                "amenities.0",
+                "nearby.0",
+                "amenities.2",
+                "rooms.0",
+                "rooms.1",
+                "policies.1"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": [
+                "policies.2"
+              ],
+              "invented": [],
+              "precision": 0.9090909090909091,
+              "recall": 1,
+              "f1": 0.9523809523809523,
+              "exact_match": false
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "This text is generally well-written and flows naturally in French, with appropriate marketing register and vocabulary. However, there are a couple of minor elements that suggest translation from English rather than native French composition. The phrase \"accès skis aux pieds\" is correct but feels slightly calqued from \"ski-in/ski-out\" - while used in French ski resort marketing, a native writer might vary the expression or use \"accès direct aux pistes\". The term \"chambres twin standard\" uses the English \"twin\" which, while understood in French hospitality contexts, is an anglicism; a purely native text would more likely say \"chambres à deux lits\" or \"chambres doubles avec lits jumeaux\". The rest of the copy (remontée mécanique, local à skis, casiers chauffants, chambres familiales de style chalet, animaux de compagnie sont les bienvenus) all sounds perfectly natural and idiomatic.",
+              "issues": [
+                "[\"chambres twin standard\" (anglicism - \"twin\" instead of \"chambres à deux lits\" or \"lits jumeaux\"), \"accès skis aux pieds\" (correct but slightly calqued from English \"ski-in/ski-out\")]"
+              ]
+            },
+            "overall_score": 0.9066666666666666,
+            "pass": false
+          },
+          {
+            "n": 2,
+            "text": "Le Pinecrest Lodge vous accueille à Chamonix avec un accès skis aux pieds et la remontée mécanique la plus proche à seulement 100 m. L'établissement dispose d'une piscine couverte, d'un sauna et d'un local à chaussures équipé de casiers chauffants. Vous aurez le choix entre des chambres twin standard et des chambres familiales de style chalet pouvant accueillir jusqu'à 5 personnes. Vos animaux de compagnie sont les bienvenus.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "amenities.0",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "policies.1"
+              ],
+              "matched": [
+                "policies.1",
+                "amenities.0",
+                "amenities.3",
+                "rooms.0",
+                "core.name",
+                "core.city",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "rooms.1"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 3,
+              "reasoning": "This text is generally fluent and understandable, but contains several telltale signs of translation from English hospitality copy. The overall structure and vocabulary are correct, but certain phrases feel calqued or use collocations that aren't quite natural in French marketing context. A native French copywriter would likely phrase several elements differently to achieve a more idiomatic flow.",
+              "issues": [
+                "[\"un accès skis aux pieds\" (calque of \"ski-in/ski-out\" - more natural would be \"accès direct aux pistes\" or \"départ skis aux pieds\"), \"la remontée mécanique la plus proche\" (awkward phrasing - \"à 100 m des remontées mécaniques\" would be more natural), \"L'établissement dispose d'une\" (very formal/administrative - \"dispose de\" is common in translated hotel copy; native copy might use \"profitez de\" or simply list amenities), \"un local à chaussures équipé de casiers chauffants\" (overly literal - \"un local à skis avec sèche-chaussures\" or \"casiers sèche-chaussures\" would be more standard), \"Vous aurez le choix entre\" (calque of \"you can choose between\" - more natural: \"Choisissez parmi\" or simply \"Chambres disponibles :\"), \"chambres twin standard\" (\"twin\" is an English hotel term - French would typically say \"chambres à deux lits\" or \"chambres doubles avec lits jumeaux\"), \"Vos animaux de compagnie sont les bienvenus\" (correct but slightly formal - \"Animaux acceptés\" or \"Nous acceptons les animaux\" is more common in French hotel marketing)]"
+              ]
+            },
+            "overall_score": 0.8799999999999999,
+            "pass": false
+          },
+          {
+            "n": 3,
+            "text": "Le Pinecrest Lodge à Chamonix offre un accès direct aux pistes et se trouve à 100 m des remontées mécaniques. Profitez d'une piscine intérieure, d'un sauna et d'un local à skis avec sèche-chaussures. Choisissez parmi des chambres à deux lits ou des chambres familiales de style chalet pouvant accueillir jusqu'à 5 personnes. Animaux acceptés.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "amenities.0",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "policies.1"
+              ],
+              "matched": [
+                "rooms.0",
+                "rooms.1",
+                "core.city",
+                "amenities.0",
+                "policies.1",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2"
+              ],
+              "missing": [
+                "core.name"
+              ],
+              "contradicted": [
+                "amenities.3"
+              ],
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 0.8,
+              "f1": 0.888888888888889,
+              "exact_match": false
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "This text is generally well-written and fluent, with good marketing copy structure. Most phrases sound natural in French. However, there are a couple of minor issues that suggest translation influence: \"chambres à deux lits\" is technically correct but \"chambres twin\" or \"chambres doubles avec lits jumeaux\" would be more standard in French hotel marketing. \"Animaux acceptés\" as a standalone sentence feels slightly abrupt and administrative - native French hotel copy would more likely say \"Animaux de compagnie acceptés\" or integrate it more smoothly into the description. The overall structure and flow are good, and phrases like \"accès direct aux pistes,\" \"local à skis avec sèche-chaussures,\" and \"de style chalet\" are all idiomatic and natural.",
+              "issues": [
+                "[\"chambres à deux lits\" (slightly literal - \"chambres twin\" or \"chambres doubles avec lits jumeaux\" more common), \"Animaux acceptés\" (too terse/administrative as standalone - \"Animaux de compagnie acceptés\" more natural)]"
+              ]
+            },
+            "overall_score": 0.8622222222222222,
+            "pass": false
+          },
+          {
+            "n": 4,
+            "text": "Le Pinecrest Lodge vous accueille à Chamonix avec un accès skis aux pieds et à seulement 100 m de la remontée mécanique la plus proche. Profitez de la piscine intérieure, du sauna et d'un local à chaussures équipé de casiers chauffants. L'établissement propose des chambres twin standard et des chambres familiales de style chalet pouvant accueillir jusqu'à 5 personnes. Vos animaux de compagnie sont les bienvenus.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "amenities.0",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "policies.1"
+              ],
+              "matched": [
+                "rooms.0",
+                "rooms.1",
+                "policies.1",
+                "amenities.0",
+                "amenities.2",
+                "core.city",
+                "nearby.0",
+                "amenities.1",
+                "amenities.3"
+              ],
+              "missing": [
+                "core.name"
+              ],
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 0.9,
+              "f1": 0.9473684210526316,
+              "exact_match": false
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "This text is generally well-written and flows naturally in French. The vocabulary is appropriate for hotel marketing copy, and most phrases sound native. However, there are a couple of minor elements that suggest translation influence: \"accès skis aux pieds\" is the correct French term for ski-in/ski-out access, which is good. \"Local à chaussures équipé de casiers chauffants\" is technically correct but feels slightly technical/literal - a native writer might say \"local à skis avec sèche-chaussures\" or simply \"sèche-chaussures\". The phrase \"chambres twin standard\" uses the English loanword \"twin\" which, while understood in French hospitality, could be more naturally expressed as \"chambres à deux lits\" or \"chambres doubles avec lits jumeaux\". \"Vos animaux de compagnie sont les bienvenus\" is perfectly idiomatic. Overall, this reads at a high level with only very minor hints of translation.",
+              "issues": [
+                "[\"chambres twin standard\" (uses English loanword \"twin\" - more natural would be \"chambres à deux lits\"), \"local à chaussures équipé de casiers chauffants\" (slightly technical/literal - \"sèche-chaussures\" or \"local à skis avec sèche-chaussures\" would be more natural)]"
+              ]
+            },
+            "overall_score": 0.903157894736842,
+            "pass": false
+          },
+          {
+            "n": 5,
+            "text": "Le Pinecrest Lodge à Chamonix vous accueille avec un accès skis aux pieds et à seulement 100 m de la remontée mécanique la plus proche. L'établissement dispose d'une piscine intérieure, d'un sauna et d'un local à chaussures équipé de casiers chauffants. Vous aurez le choix entre des chambres twin standard et des chambres familiales de style chalet pouvant accueillir jusqu'à 5 personnes. Les animaux de compagnie sont les bienvenus.",
+            "consistency": {
+              "selected": [
+                "core.name",
+                "core.city",
+                "amenities.0",
+                "nearby.0",
+                "amenities.1",
+                "amenities.2",
+                "amenities.3",
+                "rooms.0",
+                "rooms.1",
+                "policies.1"
+              ],
+              "matched": [
+                "rooms.0",
+                "rooms.1",
+                "nearby.0",
+                "amenities.3",
+                "policies.1",
+                "core.name",
+                "core.city",
+                "amenities.0",
+                "amenities.1",
+                "amenities.2"
+              ],
+              "missing": null,
+              "contradicted": null,
+              "extra": null,
+              "invented": [],
+              "precision": 1,
+              "recall": 1,
+              "f1": 1,
+              "exact_match": true
+            },
+            "nativeness": {
+              "score": 4,
+              "reasoning": "This text is generally well-written and flows naturally in French, with appropriate marketing register and vocabulary. However, there are a few minor elements that suggest translation from English rather than native French composition. The phrase \"accès skis aux pieds\" is correct but slightly formulaic - a native writer might vary this more. More notably, \"chambres twin standard\" uses the English term \"twin\" which, while understood in French hospitality contexts, is a direct borrowing that feels slightly international/translated rather than purely French (where \"chambres à deux lits\" or \"chambres doubles avec lits jumeaux\" would be more native). The structure \"L'établissement dispose de\" is perfectly correct but very standard hotel-speak that could appear in translations. Overall, the text is professional and fluent, but these small markers prevent it from being completely indistinguishable from native-written copy.",
+              "issues": [
+                "[\"chambres twin standard\" (uses English \"twin\" rather than French \"chambres à deux lits\" or \"lits jumeaux\")]"
+              ]
+            },
+            "overall_score": 0.94,
+            "pass": true
+          }
+        ]
+      }
+    }
+  }
+]
