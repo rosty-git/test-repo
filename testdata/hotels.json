@@ -1,0 +1,26 @@
+[
+  {
+    "id": "hotel-001",
+    "name": "Strandhaus Aurora",
+    "city": "Sylt",
+    "country": "Germany",
+    "setting": "beachfront",
+    "amenities": ["heated outdoor pool", "spa with sauna (adults only)", "two restaurants", "free bike rental", "EV charging"],
+    "rooms": ["double rooms", "sea-view suites", "family apartments for up to 4"],
+    "nearby": ["3 minute walk to the beach", "15 minutes to Westerland centre", "guided tidal-flat hikes"],
+    "policies": ["breakfast included", "dogs allowed in ground-floor rooms only", "free cancellation up to 14 days before arrival"],
+    "price_band": "premium"
+  },
+  {
+    "id": "hotel-002",
+    "name": "Pinecrest Lodge",
+    "city": "Chamonix",
+    "country": "France",
+    "setting": "mountain village",
+    "amenities": ["ski-in ski-out access", "indoor pool", "sauna", "boot room with heated racks", "on-site bistro"],
+    "rooms": ["standard twins", "chalet-style family rooms for up to 5", "one accessible ground-floor room"],
+    "nearby": ["100 m to the nearest ski lift", "10 minutes to Chamonix centre by free shuttle"],
+    "policies": ["half board available for a surcharge", "pets welcome", "ski storage included", "free cancellation up to 30 days before arrival"],
+    "price_band": "premium"
+  }
+]
