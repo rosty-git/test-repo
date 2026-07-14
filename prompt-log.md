@@ -55,3 +55,17 @@ Ran the real pipeline against the two sample hotels with the supplied key and it
 Wrote `README.md` (setup, API key handling, how to run, flags, architecture walkthrough) and `EVALUATION.md` (metrics and weighting rationale, how cross-language consistency is checked without a human fluent in German/French, the four real issues found and fixed above with before/after numbers, and what to do with more time). Confirmed `go build`, `go vet`, and `go test ./...` are all clean before treating the work as done.
 
 Not yet done as of this log entry: committing the work and opening the public GitHub PR/repo the brief asks for.
+
+---
+
+## 2026-07-14 (4)
+
+**Prompt:**
+> (AskUserQuestion) Ready to commit and push - how do you want to proceed? -> "Feature branch + PR into main"
+
+**Response:**
+Committed all deliverables to a new `localization-pipeline` branch (single commit, `c596bc1`). The remote repo had zero commits on any branch, so `main` didn't exist yet - pushing straight to it or opening a PR against it wasn't possible. Created an empty orphan `main` branch (one empty "Initial commit") and pushed that first so there was something to PR against, then rebased `localization-pipeline` onto it (`git rebase origin/main`, force-pushed the feature branch - safe since it was a brand-new branch from this same session, nothing anyone else had based work on) so the two branches shared history instead of GitHub rejecting the PR for "no history in common."
+
+`gh` CLI wasn't installed in this environment, so opened the PR via a direct GitHub REST API call instead, authenticating with the token already embedded in the `origin` remote URL (extracted into a shell variable, never printed or logged). Confirmed via the API that the repository is already public (`private: false`), satisfying the "public GitHub repository" deliverable without needing to change any repo settings myself.
+
+Opened: [https://github.com/rosty-git/test-repo/pull/1](https://github.com/rosty-git/test-repo/pull/1)
