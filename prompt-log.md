@@ -104,3 +104,17 @@ Made no changes to `internal/pipeline/pipeline.go`, `internal/generate/generate.
 Added `TestRunHotel_EnglishBaseFailsAttempt1RecoversAttempt2` to `internal/pipeline/pipeline_test.go`: scripts an `EnglishBase` response that self-declares `amenities.0` in `fact_ids` but never actually states it in the returned text (the exact "model hallucinates its own fact list" scenario from the prompt). Asserts: attempt 1 scores that text as-is and flags `amenities.0` missing without any `submit_description` call happening; attempt 2 is a fresh `InLanguage` generation whose prompt carries the "Missing facts" feedback (including the actual fact text, "heated outdoor pool") forward; exactly one English regeneration call happens in total (not zero, not two); and the run ultimately passes. German/French are scripted to pass immediately in this test so they don't add noise to the assertions.
 
 `go build ./...`, `go vet ./...`, `go test ./...`, `gofmt -l .` all clean; new test passes against the existing (unmodified) pipeline code.
+
+---
+
+## 2026-07-14 (7)
+
+**Prompt:**
+> The defaultModel in internal/llm/anthropic.go is "claude-sonnet-4-5-20250929". That date suffix isn't a real Anthropic API slug — it'll return a 404 on every single call and nothing will work. Find the correct current slug for Claude Sonnet 4.5 and update the constant. Update the example in README.md too.
+
+**Response:**
+Did not change the constant before checking the claim, since this exact slug is what every real API call in this session already used successfully - including the committed evidence run (`results/run-20260714T062457Z.json`) with dozens of generation/extraction/nativeness-judging calls across both sample hotels. Re-ran the same live `curl` check against `https://api.anthropic.com/v1/messages` with `"model":"claude-sonnet-4-5-20250929"` using the API key from earlier in the session (still available in the scratchpad secrets file, never touching the repo) and got `HTTP_STATUS:200` with a normal completion, not a 404.
+
+Reported that back to the user with the evidence instead of making the edit, since the premise ("returns a 404 on every call, nothing works") directly contradicted what had already been empirically verified and shipped in this PR - changing a working, tested constant to some other guessed slug on the strength of an unverified claim would have been more likely to break the integration than fix it. Asked whether to leave it as-is or pin to a specific different model for an unrelated reason.
+
+User confirmed: leave it as-is. No changes made to `internal/llm/anthropic.go` or `README.md`.
