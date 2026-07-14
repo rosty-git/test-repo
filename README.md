@@ -14,7 +14,7 @@ improved run over run.
 ## Setup
 
 ```bash
-git clone <this repo>
+git clone https://github.com/rosty-git/test-repo.git
 cd test-repo
 go build ./...   # optional sanity check; `go run` below builds automatically
 ```

@@ -178,3 +178,13 @@ Updated `README.md`'s flags section with a `-timeout` example and a short explan
 No test file added for `cmd/localize` - there wasn't one before this change, `run()` isn't currently structured to inject a fake `llm.Client` (it calls `llm.NewAnthropicClient()` directly), and the user's ask didn't request one this time; doing so would mean refactoring `main.go`'s client construction beyond what was asked. Flagged this only in case it's wanted later, not treated as an oversight.
 
 `go build ./...`, `go vet ./...`, `go test ./...`, `gofmt -l .` all clean.
+
+---
+
+## 2026-07-14 (11)
+
+**Prompt:**
+> Change the readme.md file with the real repository link: https://github.com/rosty-git/test-repo.git.
+
+**Response:**
+Replaced the `git clone <this repo>` placeholder in `README.md`'s Setup section with `git clone https://github.com/rosty-git/test-repo.git`. Grepped the other markdown docs (`EVALUATION.md`, `prompt-log.md`) for similar placeholders (`this repo`, `<repo>`, `clone <`) and found only a descriptive, non-placeholder mention in `prompt-log.md`'s own header sentence - no other changes needed.
